@@ -1,0 +1,77 @@
+# ---------------------------------------------------------------------------
+#  DragonEgg - Paper 1.21.11
+#
+#  Der Drache bekommt mehr Leben, der Schaden aller Spieler wird gezaehlt und
+#  der Spieler mit dem meisten Schaden erhaelt beim Tod des Drachen das
+#  Drachenei. Danach laeuft EIN einziger Timer, der gleichzeitig
+#    * das End sperrt (end-lock)
+#    * dem Ei-Besitzer Glowing gibt (glowing)
+#    * die ENDFIGHT-Bossbar anzeigt (bossbar)
+#  Der Timer startet beim Tod des Drachen und wird NIE zurueckgesetzt.
+# ---------------------------------------------------------------------------
+
+# Hauptschalter fuer das gesamte Plugin.
+# false = das Plugin tut nichts: kein Extra-Leben, keine Schadenszaehlung,
+#         keine Eivergabe, keine End-Sperre, kein Glowing, keine Bossbar
+#         und keine Chat-Nachricht.
+enabled: true
+
+# Dauer des gemeinsamen Timers in Sekunden (Standard: 600 = 10 Minuten).
+# Dieser eine Timer gilt fuer End-Sperre, Glowing und Bossbar.
+timer:
+  duration-seconds: 600
+
+# Extra-Leben fuer den Enderdrachen.
+extra-health:
+  enabled: true
+  # Vielfaches des normalen Drachenlebens (200 HP).
+  # 10.0 = 2000 HP. Der Drache wird beim Spawn voll geheilt.
+  multiplier: 10.0
+
+# Vergabe des Drachaneis beim Tod des Drachen.
+egg-reward:
+  enabled: true
+  # Entfernt das normale Drachenei, das Vanilla auf dem Austrittsportal
+  # platziert, damit es nur ein einziges Ei gibt.
+  remove-portal-egg: true
+
+# Sperre des Ends nach dem Drachenkampf (nur freiwilliges Verlassen).
+# Respawn nach dem Tod ist immer erlaubt, auch in die Overworld.
+end-lock:
+  enabled: true
+
+# Glowing fuer den Spieler, der das Drachenei im Inventar hat.
+# Laeuft nur fuer die Restzeit des gemeinsamen Timers.
+glowing:
+  enabled: true
+
+# Rote Bossbar, die nur Spielern im End angezeigt wird.
+bossbar:
+  enabled: true
+  # Titel der Bossbar. Die Restzeit wird im Format mm:ss angehaengt.
+  title: "ENDFIGHT"
+  # Farbe der Bossbar: PINK, BLUE, RED, GREEN, YELLOW, PURPLE, WHITE
+  color: RED
+  # Stil der Bossbar: SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20
+  style: SOLID
+  # true = Restzeit im Titel anzeigen ("ENDFIGHT - 09:42")
+  show-time: true
+
+# Rote Chat-Nachricht fuer alle Spieler, sobald das Ei vergeben wurde.
+chat-message:
+  enabled: true
+  # %player% wird durch den Spielernamen ersetzt.
+  text: "%player% Has got the dragon egg"
+
+# Weitere Texte. Farbcodes mit & sind erlaubt (z. B. &c).
+messages:
+  # Hinweis, wenn ein Spieler das End waehrend der Sperre verlassen will.
+  end-locked: "&cDas End ist nach dem Drachenkampf noch fuer %time% gesperrt."
+  # Bestaetigung fuer /dragonegg reload
+  reloaded: "&aDragonEgg: config.yml neu geladen."
+  # Ueberschrift der Schadensliste von /dragonegg top
+  top-header: "&6Schaden am Enderdrachen:"
+  # Eine Zeile der Schadensliste
+  top-entry: "&e%rank%. &f%player% &7- &c%damage% &7HP"
+  # Ausgabe, wenn noch kein Schaden gezaehlt wurde.
+  top-empty: "&7Es wurde noch kein Schaden am Drachen gezaehlt."

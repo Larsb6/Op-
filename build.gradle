@@ -1,0 +1,39 @@
+plugins {
+    id 'java'
+}
+
+group = 'de.larsb6'
+version = '1.0.0'
+description = 'Dragon egg reward, end lock and ENDFIGHT bossbar for Paper 1.21.11'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'papermc'
+        url = 'https://repo.papermc.io/repository/maven-public/'
+    }
+}
+
+dependencies {
+    compileOnly 'io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release.set(21)
+    options.compilerArgs.addAll(['-Xlint:all', '-Werror'])
+}
+
+tasks.named('processResources') {
+    filteringCharset = 'UTF-8'
+}
+
+tasks.named('jar') {
+    archiveBaseName.set('DragonEgg')
+}
