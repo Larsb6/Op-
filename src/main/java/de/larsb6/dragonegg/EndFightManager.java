@@ -45,8 +45,10 @@ public final class EndFightManager {
     private static final int EGG_REMOVAL_ATTEMPTS = 30;
 
     private final DragonEggPlugin plugin;
+    private final ExitPortalLock portalLock;
 
     private final Set<UUID> glowingPlayers = new HashSet<>();
+    private final Set<UUID> playersInFight = new HashSet<>();
     private final Set<UUID> noRegrowAfterDeath = new HashSet<>();
     private final Map<UUID, Long> lockHintSentAt = new HashMap<>();
 
@@ -59,6 +61,12 @@ public final class EndFightManager {
 
     public EndFightManager(DragonEggPlugin plugin) {
         this.plugin = plugin;
+        this.portalLock = new ExitPortalLock(plugin);
+    }
+
+    /** Repairs an end lock that a crash interrupted while the portal was closed. */
+    public void restoreExitPortal() {
+        this.portalLock.restoreFromDisk();
     }
 
     // ------------------------------------------------------------------ timer
@@ -105,8 +113,11 @@ public final class EndFightManager {
         this.endWorldId = null;
         this.lockHintSentAt.clear();
         this.noRegrowAfterDeath.clear();
+        this.playersInFight.clear();
         clearBossBar();
         clearGlowing();
+        // Giving the portal blocks back is what lights the portal again.
+        this.portalLock.release();
         if (this.ticker != null) {
             this.ticker.cancel();
             this.ticker = null;
@@ -146,8 +157,34 @@ public final class EndFightManager {
             stop();
             return;
         }
+        updateFightWorldPlayers();
         updateGlowing(config);
         updateBossBar(config);
+        updateExitPortal(config);
+    }
+
+    /**
+     * Remembers who is inside the locked End. The respawn through the exit portal
+     * reports no reliable world any more, so the last known one is used there.
+     */
+    private void updateFightWorldPlayers() {
+        this.playersInFight.clear();
+        World world = fightWorld();
+        if (world == null) {
+            return;
+        }
+        for (Player player : world.getPlayers()) {
+            this.playersInFight.add(player.getUniqueId());
+        }
+    }
+
+    private void updateExitPortal(PluginConfig config) {
+        World world = fightWorld();
+        if (!config.endLock() || !config.unlightExitPortal() || world == null) {
+            this.portalLock.release();
+            return;
+        }
+        this.portalLock.enforce(world);
     }
 
     // ------------------------------------------------------- dragon lifecycle
@@ -246,6 +283,10 @@ public final class EndFightManager {
         }
         // Beside the portal pillar: an item dropped into the portal block itself
         // would be teleported out of the End.
+        return groundNextToPortal(world, portal);
+    }
+
+    private static Location groundNextToPortal(World world, Location portal) {
         int x = portal.getBlockX() + 4;
         int z = portal.getBlockZ();
         int y = Math.max(world.getHighestBlockYAt(x, z) + 1, portal.getBlockY() + 1);
@@ -491,9 +532,30 @@ public final class EndFightManager {
 
     /** True while the given world is the locked End of the finished fight. */
     public boolean isLocked(World world) {
-        PluginConfig config = this.plugin.config();
-        return config.endLock() && isRunning() && this.endWorldId != null
-                && this.endWorldId.equals(world.getUID());
+        return isRunningLock() && this.endWorldId != null && this.endWorldId.equals(world.getUID());
+    }
+
+    /**
+     * True while the End is locked and the player was inside it a moment ago. The
+     * respawn through the exit portal has already taken the player out of the End,
+     * so their own world cannot be used to decide this.
+     */
+    public boolean blocksRespawnOutOfEnd(Player player) {
+        return isRunningLock() && this.playersInFight.contains(player.getUniqueId());
+    }
+
+    /** A spot on solid ground next to the exit portal, outside the portal itself. */
+    public Location lockedReturnLocation() {
+        World world = fightWorld();
+        if (world == null) {
+            return null;
+        }
+        Location portal = endPortalLocation(world);
+        return portal == null ? world.getSpawnLocation() : groundNextToPortal(world, portal);
+    }
+
+    private boolean isRunningLock() {
+        return this.plugin.config().endLock() && isRunning();
     }
 
     /** Sends the lock hint, throttled so standing in the exit portal cannot spam the chat. */

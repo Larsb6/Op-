@@ -24,6 +24,7 @@ public final class PluginConfig {
     private final boolean removePortalEgg;
 
     private final boolean endLockEnabled;
+    private final boolean unlightExitPortal;
     private final boolean glowingEnabled;
 
     private final boolean bossBarEnabled;
@@ -52,6 +53,7 @@ public final class PluginConfig {
         this.removePortalEgg = cfg.getBoolean("egg-reward.remove-portal-egg", true);
 
         this.endLockEnabled = cfg.getBoolean("end-lock.enabled", true);
+        this.unlightExitPortal = cfg.getBoolean("end-lock.unlight-exit-portal", true);
         this.glowingEnabled = cfg.getBoolean("glowing.enabled", true);
 
         this.bossBarEnabled = cfg.getBoolean("bossbar.enabled", true);
@@ -129,6 +131,10 @@ public final class PluginConfig {
 
     public boolean endLock() {
         return this.enabled && this.endLockEnabled;
+    }
+
+    public boolean unlightExitPortal() {
+        return this.unlightExitPortal;
     }
 
     public boolean glowing() {

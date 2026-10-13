@@ -6,6 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerPortalEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
 /**
@@ -14,6 +15,11 @@ import org.bukkit.event.player.PlayerTeleportEvent;
  *
  * <p>{@link PlayerPortalEvent} has its own handler list, so it needs its own
  * handler next to {@link PlayerTeleportEvent}.
+ *
+ * <p>A player who has not seen the credits yet does not leave the End through a
+ * teleport at all: vanilla shows them the end poem and brings them back through a
+ * respawn with {@link PlayerRespawnEvent.RespawnReason#END_PORTAL}. That respawn
+ * cannot be cancelled, so its location is pointed back into the End instead.
  */
 public final class EndLockListener implements Listener {
 
@@ -35,6 +41,24 @@ public final class EndLockListener implements Listener {
         if (blocked(event.getPlayer(), event.getFrom(), event.getTo())) {
             event.setCancelled(true);
         }
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onRespawn(PlayerRespawnEvent event) {
+        if (event.getRespawnReason() != PlayerRespawnEvent.RespawnReason.END_PORTAL) {
+            // A respawn after death stays untouched, including into the overworld.
+            return;
+        }
+        Player player = event.getPlayer();
+        if (!this.plugin.manager().blocksRespawnOutOfEnd(player)) {
+            return;
+        }
+        Location back = this.plugin.manager().lockedReturnLocation();
+        if (back == null) {
+            return;
+        }
+        event.setRespawnLocation(back);
+        this.plugin.manager().sendLockHint(player);
     }
 
     private boolean blocked(Player player, Location from, Location to) {

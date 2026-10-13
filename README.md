@@ -19,8 +19,16 @@ No NMS, no reflection, no deprecated APIs.
    removed. If the winner's inventory is full, the egg drops in front of their
    feet. On a tie the player who reached the value first wins.
 4. **End lock** – After the dragon died, the End cannot be left on purpose for
-   the duration of the timer (exit portal and teleports into other worlds are
-   cancelled, with a hint in chat). Respawning after death is never affected.
+   the duration of the timer. Teleports into other worlds are cancelled with a
+   hint in chat, and the end portal blocks of the exit portal are taken out of
+   the world (`end-lock.unlight-exit-portal`), so the portal only lights up
+   again once the timer ended. That also closes the end poem exit, which a
+   player who has not seen the credits yet uses instead of a teleport, and which
+   therefore cannot be cancelled through a teleport event. Should such a respawn
+   still happen, its location is pointed back next to the exit portal.
+   Respawning after death is never affected. The removed portal positions are
+   stored in the data folder, so a crash during the lock cannot leave the portal
+   dark: the next start puts the blocks back.
 5. **Glowing** – The current holder of the egg glows, but only for the
    remaining time of the timer. If they die, the glowing is removed and not set
    again after the respawn. If another player picks the egg up, they get the

@@ -41,6 +41,11 @@ egg-reward:
 # Respawning after death is always allowed, including into the overworld.
 end-lock:
   enabled: true
+  # true = the end portal blocks of the exit portal are taken out of the world
+  #        while the lock runs, so the portal only lights up again once the timer
+  #        ended. This also closes the end poem exit, which a player who has not
+  #        seen the credits yet would otherwise use to get out.
+  unlight-exit-portal: true
 
 # Glowing for the player who carries the dragon egg in their inventory.
 # It only runs for the remaining time of the shared timer.

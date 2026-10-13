@@ -22,6 +22,8 @@ public final class DragonEggPlugin extends JavaPlugin {
         saveDefaultConfig();
         this.config = PluginConfig.load(this, getConfig());
         this.manager = new EndFightManager(this);
+        // A crash during a lock may have left the exit portal closed.
+        this.manager.restoreExitPortal();
 
         getServer().getPluginManager().registerEvents(new DragonListener(this), this);
         getServer().getPluginManager().registerEvents(new EggListener(this), this);
