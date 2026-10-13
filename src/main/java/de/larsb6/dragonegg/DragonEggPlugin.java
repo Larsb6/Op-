@@ -29,7 +29,7 @@ public final class DragonEggPlugin extends JavaPlugin {
 
         PluginCommand command = getCommand("dragonegg");
         if (command == null) {
-            getLogger().severe("Befehl 'dragonegg' fehlt in der plugin.yml.");
+            getLogger().severe("Command 'dragonegg' is missing from plugin.yml.");
         } else {
             DragonEggCommand executor = new DragonEggCommand(this);
             command.setExecutor(executor);
@@ -37,7 +37,7 @@ public final class DragonEggPlugin extends JavaPlugin {
         }
 
         if (!this.config.isEnabled()) {
-            getLogger().info("DragonEgg ist in der config.yml deaktiviert (enabled: false).");
+            getLogger().info("DragonEgg is disabled in config.yml (enabled: false).");
         }
     }
 

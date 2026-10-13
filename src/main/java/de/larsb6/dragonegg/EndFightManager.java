@@ -94,7 +94,7 @@ public final class EndFightManager {
         if (this.ticker == null) {
             this.ticker = Bukkit.getScheduler().runTaskTimer(this.plugin, this::tick, 1L, TICK_INTERVAL);
         }
-        this.plugin.getLogger().info("Endfight-Timer gestartet: " + config.timerSeconds() + "s in Welt "
+        this.plugin.getLogger().info("Endfight timer started: " + config.timerSeconds() + "s in world "
                 + world.getName() + ".");
     }
 
@@ -167,14 +167,14 @@ public final class EndFightManager {
         }
         AttributeInstance attribute = dragon.getAttribute(Attribute.MAX_HEALTH);
         if (attribute == null) {
-            this.plugin.getLogger().warning("Der Drache hat kein MAX_HEALTH Attribut, Extra-Leben uebersprungen.");
+            this.plugin.getLogger().warning("The dragon has no MAX_HEALTH attribute, skipping extra health.");
             return;
         }
         // Always derived from the vanilla default so a respawn cannot stack the multiplier.
         double maxHealth = attribute.getDefaultValue() * multiplier;
         attribute.setBaseValue(maxHealth);
         dragon.setHealth(maxHealth);
-        this.plugin.getLogger().info("Drache gespawnt mit " + maxHealth + " HP (x" + multiplier + ").");
+        this.plugin.getLogger().info("Dragon spawned with " + maxHealth + " HP (x" + multiplier + ").");
     }
 
     /** The dragon died: hand out the egg, announce it and start the shared timer. */

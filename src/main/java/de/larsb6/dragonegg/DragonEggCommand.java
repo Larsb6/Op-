@@ -51,15 +51,15 @@ public final class DragonEggCommand implements CommandExecutor, TabCompleter {
         sender.sendMessage(flag("chat-message", config.chatMessage()));
         if (manager.isRunning()) {
             sender.sendMessage(Component.text("Timer: " + EndFightManager.formatTime(manager.remainingSeconds())
-                    + " (von " + config.timerSeconds() + "s)", NamedTextColor.YELLOW));
+                    + " (of " + config.timerSeconds() + "s)", NamedTextColor.YELLOW));
         } else {
-            sender.sendMessage(Component.text("Timer: inaktiv", NamedTextColor.GRAY));
+            sender.sendMessage(Component.text("Timer: idle", NamedTextColor.GRAY));
         }
     }
 
     private static Component flag(String name, boolean active) {
         return Component.text(name + ": ", NamedTextColor.GRAY)
-                .append(Component.text(active ? "an" : "aus", active ? NamedTextColor.GREEN : NamedTextColor.RED));
+                .append(Component.text(active ? "on" : "off", active ? NamedTextColor.GREEN : NamedTextColor.RED));
     }
 
     private void sendTop(CommandSender sender) {

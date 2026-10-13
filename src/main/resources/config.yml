@@ -1,77 +1,77 @@
 # ---------------------------------------------------------------------------
 #  DragonEgg - Paper 1.21.11
 #
-#  Der Drache bekommt mehr Leben, der Schaden aller Spieler wird gezaehlt und
-#  der Spieler mit dem meisten Schaden erhaelt beim Tod des Drachen das
-#  Drachenei. Danach laeuft EIN einziger Timer, der gleichzeitig
-#    * das End sperrt (end-lock)
-#    * dem Ei-Besitzer Glowing gibt (glowing)
-#    * die ENDFIGHT-Bossbar anzeigt (bossbar)
-#  Der Timer startet beim Tod des Drachen und wird NIE zurueckgesetzt.
+#  The Ender Dragon gets extra health, the damage of every player is counted
+#  and the player with the most damage receives the dragon egg when the dragon
+#  dies. Afterwards ONE single timer runs, which at the same time
+#    * locks the End (end-lock)
+#    * gives the egg holder glowing (glowing)
+#    * shows the ENDFIGHT boss bar (bossbar)
+#  The timer starts when the dragon dies and is NEVER reset.
 # ---------------------------------------------------------------------------
 
-# Hauptschalter fuer das gesamte Plugin.
-# false = das Plugin tut nichts: kein Extra-Leben, keine Schadenszaehlung,
-#         keine Eivergabe, keine End-Sperre, kein Glowing, keine Bossbar
-#         und keine Chat-Nachricht.
+# Master switch for the whole plugin.
+# false = the plugin does nothing: no extra health, no damage counting,
+#         no egg reward, no end lock, no glowing, no boss bar and
+#         no chat message.
 enabled: true
 
-# Dauer des gemeinsamen Timers in Sekunden (Standard: 600 = 10 Minuten).
-# Dieser eine Timer gilt fuer End-Sperre, Glowing und Bossbar.
+# Duration of the shared timer in seconds (default: 600 = 10 minutes).
+# This one timer is used by the end lock, the glowing and the boss bar.
 timer:
   duration-seconds: 600
 
-# Extra-Leben fuer den Enderdrachen.
+# Extra health for the Ender Dragon.
 extra-health:
   enabled: true
-  # Vielfaches des normalen Drachenlebens (200 HP).
-  # 10.0 = 2000 HP. Der Drache wird beim Spawn voll geheilt.
+  # Multiple of the normal dragon health (200 HP).
+  # 10.0 = 2000 HP. The dragon is fully healed when it spawns.
   multiplier: 10.0
 
-# Vergabe des Drachaneis beim Tod des Drachen.
+# Handing out the dragon egg when the dragon dies.
 egg-reward:
   enabled: true
-  # Entfernt das normale Drachenei, das Vanilla auf dem Austrittsportal
-  # platziert, damit es nur ein einziges Ei gibt.
+  # Removes the normal dragon egg that vanilla places on the exit portal,
+  # so that only a single egg exists.
   remove-portal-egg: true
 
-# Sperre des Ends nach dem Drachenkampf (nur freiwilliges Verlassen).
-# Respawn nach dem Tod ist immer erlaubt, auch in die Overworld.
+# Lock of the End after the dragon fight (only leaving on purpose).
+# Respawning after death is always allowed, including into the overworld.
 end-lock:
   enabled: true
 
-# Glowing fuer den Spieler, der das Drachenei im Inventar hat.
-# Laeuft nur fuer die Restzeit des gemeinsamen Timers.
+# Glowing for the player who carries the dragon egg in their inventory.
+# It only runs for the remaining time of the shared timer.
 glowing:
   enabled: true
 
-# Rote Bossbar, die nur Spielern im End angezeigt wird.
+# Red boss bar that is only shown to players inside the End.
 bossbar:
   enabled: true
-  # Titel der Bossbar. Die Restzeit wird im Format mm:ss angehaengt.
+  # Title of the boss bar. The remaining time is appended as mm:ss.
   title: "ENDFIGHT"
-  # Farbe der Bossbar: PINK, BLUE, RED, GREEN, YELLOW, PURPLE, WHITE
+  # Colour of the boss bar: PINK, BLUE, RED, GREEN, YELLOW, PURPLE, WHITE
   color: RED
-  # Stil der Bossbar: SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20
+  # Style of the boss bar: SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20
   style: SOLID
-  # true = Restzeit im Titel anzeigen ("ENDFIGHT - 09:42")
+  # true = show the remaining time in the title ("ENDFIGHT - 09:42")
   show-time: true
 
-# Rote Chat-Nachricht fuer alle Spieler, sobald das Ei vergeben wurde.
+# Red chat message for every player as soon as the egg has been handed out.
 chat-message:
   enabled: true
-  # %player% wird durch den Spielernamen ersetzt.
+  # %player% is replaced with the player name.
   text: "%player% Has got the dragon egg"
 
-# Weitere Texte. Farbcodes mit & sind erlaubt (z. B. &c).
+# Other texts. Colour codes with & are allowed (for example &c).
 messages:
-  # Hinweis, wenn ein Spieler das End waehrend der Sperre verlassen will.
-  end-locked: "&cDas End ist nach dem Drachenkampf noch fuer %time% gesperrt."
-  # Bestaetigung fuer /dragonegg reload
-  reloaded: "&aDragonEgg: config.yml neu geladen."
-  # Ueberschrift der Schadensliste von /dragonegg top
-  top-header: "&6Schaden am Enderdrachen:"
-  # Eine Zeile der Schadensliste
+  # Hint for a player who tries to leave the End while it is locked.
+  end-locked: "&cThe End stays locked for %time% after the dragon fight."
+  # Confirmation for /dragonegg reload
+  reloaded: "&aDragonEgg: config.yml reloaded."
+  # Header of the damage list of /dragonegg top
+  top-header: "&6Damage dealt to the Ender Dragon:"
+  # A single line of the damage list
   top-entry: "&e%rank%. &f%player% &7- &c%damage% &7HP"
-  # Ausgabe, wenn noch kein Schaden gezaehlt wurde.
-  top-empty: "&7Es wurde noch kein Schaden am Drachen gezaehlt."
+  # Output when no damage has been counted yet.
+  top-empty: "&7No damage has been counted on the dragon yet."

@@ -2,15 +2,15 @@ name: DragonEgg
 version: 1.0.0
 main: de.larsb6.dragonegg.DragonEggPlugin
 api-version: '1.21'
-description: Vergibt das Drachenei an den Spieler mit dem meisten Schaden und sperrt das End danach.
+description: Hands the dragon egg to the player with the most damage and locks the End afterwards.
 author: larsb6
 commands:
   dragonegg:
-    description: Verwaltung des DragonEgg-Plugins.
+    description: Manage the DragonEgg plugin.
     usage: /dragonegg <reload|status|top>
-    aliases: [dragonei, endfight]
+    aliases: [degg, endfight]
     permission: dragonegg.admin
 permissions:
   dragonegg.admin:
-    description: Erlaubt /dragonegg reload, status und top.
+    description: Allows /dragonegg reload, status and top.
     default: op

@@ -64,11 +64,11 @@ public final class PluginConfig {
         this.chatMessageText = cfg.getString("chat-message.text", "%player% Has got the dragon egg");
 
         this.msgEndLocked = cfg.getString("messages.end-locked",
-                "&cDas End ist nach dem Drachenkampf noch fuer %time% gesperrt.");
-        this.msgReloaded = cfg.getString("messages.reloaded", "&aDragonEgg: config.yml neu geladen.");
-        this.msgTopHeader = cfg.getString("messages.top-header", "&6Schaden am Enderdrachen:");
+                "&cThe End stays locked for %time% after the dragon fight.");
+        this.msgReloaded = cfg.getString("messages.reloaded", "&aDragonEgg: config.yml reloaded.");
+        this.msgTopHeader = cfg.getString("messages.top-header", "&6Damage dealt to the Ender Dragon:");
         this.msgTopEntry = cfg.getString("messages.top-entry", "&e%rank%. &f%player% &7- &c%damage% &7HP");
-        this.msgTopEmpty = cfg.getString("messages.top-empty", "&7Es wurde noch kein Schaden am Drachen gezaehlt.");
+        this.msgTopEmpty = cfg.getString("messages.top-empty", "&7No damage has been counted on the dragon yet.");
     }
 
     /** Reads the plugin's config.yml from disk into a fresh snapshot. */
@@ -83,7 +83,7 @@ public final class PluginConfig {
                 return color;
             }
         }
-        plugin.getLogger().warning("Unbekannte bossbar.color '" + raw + "', benutze RED.");
+        plugin.getLogger().warning("Unknown bossbar.color '" + raw + "', falling back to RED.");
         return BarColor.RED;
     }
 
@@ -94,7 +94,7 @@ public final class PluginConfig {
                 return style;
             }
         }
-        plugin.getLogger().warning("Unbekannter bossbar.style '" + raw + "', benutze SOLID.");
+        plugin.getLogger().warning("Unknown bossbar.style '" + raw + "', falling back to SOLID.");
         return BarStyle.SOLID;
     }
 
