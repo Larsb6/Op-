@@ -155,6 +155,13 @@ public final class EndFightManager {
     /** A new dragon appeared: counters start over and the extra health is applied. */
     public void onDragonSpawn(EnderDragon dragon) {
         this.plugin.tracker().reset();
+        // A living dragon means the fight is on again, so anything a previous kill
+        // started ends right here. The timer only ever runs between a dragon's
+        // death and its expiry, never while a dragon is alive.
+        if (isRunning()) {
+            this.plugin.getLogger().info("A new dragon spawned, the endfight timer was stopped.");
+            stop();
+        }
         PluginConfig config = this.plugin.config();
         if (config.extraHealth()) {
             Bukkit.getScheduler().runTask(this.plugin, () -> applyExtraHealth(dragon, config.healthMultiplier()));

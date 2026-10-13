@@ -18,6 +18,8 @@ enabled: true
 
 # Duration of the shared timer in seconds (default: 600 = 10 minutes).
 # This one timer is used by the end lock, the glowing and the boss bar.
+# It starts the moment the dragon dies, never while a dragon is alive: if a new
+# dragon is summoned while it is still running, the timer ends immediately.
 timer:
   duration-seconds: 600
 

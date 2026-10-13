@@ -35,7 +35,10 @@ No NMS, no reflection, no deprecated APIs.
    when they leave it.
 
 Features 4, 5 and 8 share **one single timer** that starts when the dragon dies
-and is never reset (`timer.duration-seconds`, default 600).
+and is never reset while it runs (`timer.duration-seconds`, default 600). It
+never runs while a dragon is alive: spawning a new dragon clears the damage
+counters and stops a timer that is still running from the previous kill, so the
+boss bar, the glowing and the end lock only ever exist after a dragon died.
 
 ## Commands
 
