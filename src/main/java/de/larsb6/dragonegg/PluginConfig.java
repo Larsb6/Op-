@@ -25,6 +25,7 @@ public final class PluginConfig {
 
     private final boolean endLockEnabled;
     private final boolean unlightExitPortal;
+    private final boolean blockEntering;
     private final boolean glowingEnabled;
 
     private final boolean bossBarEnabled;
@@ -37,6 +38,7 @@ public final class PluginConfig {
     private final String chatMessageText;
 
     private final String msgEndLocked;
+    private final String msgEndClosed;
     private final String msgReloaded;
     private final String msgTopHeader;
     private final String msgTopEntry;
@@ -57,6 +59,7 @@ public final class PluginConfig {
 
         this.endLockEnabled = cfg.getBoolean("end-lock.enabled", true);
         this.unlightExitPortal = cfg.getBoolean("end-lock.unlight-exit-portal", true);
+        this.blockEntering = cfg.getBoolean("end-lock.block-entering", true);
         this.glowingEnabled = cfg.getBoolean("glowing.enabled", true);
 
         this.bossBarEnabled = cfg.getBoolean("bossbar.enabled", true);
@@ -70,6 +73,8 @@ public final class PluginConfig {
 
         this.msgEndLocked = cfg.getString("messages.end-locked",
                 "&cThe End stays locked for %time% after the dragon fight.");
+        this.msgEndClosed = cfg.getString("messages.end-closed",
+                "&cThe End is closed for %time% after the dragon fight.");
         this.msgReloaded = cfg.getString("messages.reloaded", "&aDragonEgg: config.yml reloaded.");
         this.msgTopHeader = cfg.getString("messages.top-header", "&6Damage dealt to the Ender Dragon:");
         this.msgTopEntry = cfg.getString("messages.top-entry", "&e%rank%. &f%player% &7- &c%damage% &7HP");
@@ -144,6 +149,10 @@ public final class PluginConfig {
         return this.unlightExitPortal;
     }
 
+    public boolean blockEntering() {
+        return this.blockEntering;
+    }
+
     public boolean glowing() {
         return this.enabled && this.glowingEnabled;
     }
@@ -178,6 +187,10 @@ public final class PluginConfig {
 
     public String msgEndLocked() {
         return this.msgEndLocked;
+    }
+
+    public String msgEndClosed() {
+        return this.msgEndClosed;
     }
 
     public String msgReloaded() {

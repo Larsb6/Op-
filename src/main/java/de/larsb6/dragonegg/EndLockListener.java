@@ -10,7 +10,8 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
 /**
- * Blocks leaving the End on purpose while the timer runs. Dying and respawning is
+ * Blocks leaving the locked End on purpose while the timer runs, and entering it
+ * as well when {@code end-lock.block-entering} is on. Dying and respawning is
  * never touched, so a player may respawn in the overworld as usual.
  *
  * <p>{@link PlayerPortalEvent} has its own handler list, so it needs its own
@@ -65,14 +66,19 @@ public final class EndLockListener implements Listener {
         if (to == null || from == null) {
             return false;
         }
-        if (!this.plugin.manager().isLocked(from.getWorld())) {
-            return false;
-        }
         if (from.getWorld().getUID().equals(to.getWorld().getUID())) {
-            // Moving around inside the End, e.g. through an end gateway, stays allowed.
+            // Moving around inside one world, e.g. through an end gateway, stays allowed.
             return false;
         }
-        this.plugin.manager().sendLockHint(player);
-        return true;
+        EndFightManager manager = this.plugin.manager();
+        if (manager.isLocked(from.getWorld())) {
+            manager.sendLockHint(player);
+            return true;
+        }
+        if (manager.blocksEntering(to.getWorld())) {
+            manager.sendEntryHint(player);
+            return true;
+        }
+        return false;
     }
 }

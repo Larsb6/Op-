@@ -46,6 +46,13 @@ end-lock:
   #        ended. This also closes the end poem exit, which a player who has not
   #        seen the credits yet would otherwise use to get out.
   unlight-exit-portal: true
+  # true = nobody can enter the End while the lock runs: the end portal in the
+  #        stronghold and teleports into the End are cancelled, so only the
+  #        players who were there when the dragon died take part in the endfight.
+  #        Players who are already inside the End are never thrown out, and a
+  #        player who was offline in the End can still log back in.
+  #        Needs end-lock.enabled: true.
+  block-entering: true
 
 # Glowing for the player who carries the dragon egg in their inventory.
 # It only runs for the remaining time of the shared timer.
@@ -74,6 +81,8 @@ chat-message:
 messages:
   # Hint for a player who tries to leave the End while it is locked.
   end-locked: "&cThe End stays locked for %time% after the dragon fight."
+  # Hint for a player who tries to enter the End while it is locked.
+  end-closed: "&cThe End is closed for %time% after the dragon fight."
   # Confirmation for /dragonegg reload
   reloaded: "&aDragonEgg: config.yml reloaded."
   # Header of the damage list of /dragonegg top

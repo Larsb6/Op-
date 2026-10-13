@@ -19,10 +19,15 @@ No NMS, no reflection, no deprecated APIs.
    removed. If the winner's inventory is full, the egg drops in front of their
    feet. On a tie the player who reached the value first wins.
 4. **End lock** – After the dragon died, the End cannot be left on purpose for
-   the duration of the timer. Teleports into other worlds are cancelled with a
-   hint in chat, and the end portal blocks of the exit portal are taken out of
-   the world (`end-lock.unlight-exit-portal`), so the portal only lights up
-   again once the timer ended. That also closes the end poem exit, which a
+   the duration of the timer, and nobody can enter it either
+   (`end-lock.block-entering`, on by default): the end portal in the stronghold
+   and teleports into the End are cancelled, so only the players who were there
+   when the dragon died take part in the endfight. Players already inside are
+   never thrown out, and someone who was offline in the End can still log back
+   in. Teleports into other worlds are cancelled with a hint in chat, and the
+   end portal blocks of the exit portal are taken out of the world
+   (`end-lock.unlight-exit-portal`), so the portal only lights up again once the
+   timer ended. That also closes the end poem exit, which a
    player who has not seen the credits yet uses instead of a teleport, and which
    therefore cannot be cancelled through a teleport event. Should such a respawn
    still happen, its location is pointed back next to the exit portal.
@@ -69,7 +74,8 @@ about it (`messages.skip-notice`, empty to send nothing).
 ## Switches
 
 `enabled: false` turns the whole plugin off. In addition every feature has its
-own switch: `extra-health.enabled`, `egg-reward.enabled`, `end-lock.enabled`,
+own switch: `extra-health.enabled`, `egg-reward.enabled`, `end-lock.enabled`
+(with `end-lock.block-entering` and `end-lock.unlight-exit-portal` under it),
 `glowing.enabled`, `bossbar.enabled`, `chat-message.enabled`. If a feature (or
 the whole plugin) is turned off through `/dragonegg reload` while a timer is
 running, it ends immediately.

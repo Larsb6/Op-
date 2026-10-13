@@ -46,6 +46,7 @@ public final class DragonEggCommand implements CommandExecutor, TabCompleter {
         sender.sendMessage(flag("extra-health (x" + config.healthMultiplier() + ")", config.extraHealth()));
         sender.sendMessage(flag("egg-reward", config.eggReward()));
         sender.sendMessage(flag("end-lock", config.endLock()));
+        sender.sendMessage(flag("end-lock entry block", config.endLock() && config.blockEntering()));
         sender.sendMessage(flag("glowing", config.glowing()));
         sender.sendMessage(flag("bossbar", config.bossBar()));
         sender.sendMessage(flag("chat-message", config.chatMessage()));

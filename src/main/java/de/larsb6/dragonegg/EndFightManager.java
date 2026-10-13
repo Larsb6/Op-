@@ -584,16 +584,31 @@ public final class EndFightManager {
         return this.plugin.config().endLock() && isRunning();
     }
 
-    /** Sends the lock hint, throttled so standing in the exit portal cannot spam the chat. */
+    /** True while nobody may enter the locked End of the finished fight. */
+    public boolean blocksEntering(World world) {
+        return isRunningLock() && this.plugin.config().blockEntering() && this.endWorldId != null
+                && this.endWorldId.equals(world.getUID());
+    }
+
+    /** Hint for a player who tries to leave the locked End. */
     public void sendLockHint(Player player) {
+        sendHint(player, this.plugin.config().msgEndLocked());
+    }
+
+    /** Hint for a player who tries to enter the locked End. */
+    public void sendEntryHint(Player player) {
+        sendHint(player, this.plugin.config().msgEndClosed());
+    }
+
+    /** Throttled, so standing in a portal cannot spam the chat. */
+    private void sendHint(Player player, String raw) {
         long now = System.currentTimeMillis();
         Long last = this.lockHintSentAt.get(player.getUniqueId());
         if (last != null && now - last < LOCK_MESSAGE_COOLDOWN_MILLIS) {
             return;
         }
         this.lockHintSentAt.put(player.getUniqueId(), now);
-        player.sendMessage(PluginConfig.text(this.plugin.config().msgEndLocked()
-                .replace("%time%", formatTime(remainingSeconds()))));
+        player.sendMessage(PluginConfig.text(raw.replace("%time%", formatTime(remainingSeconds()))));
     }
 
     public static String formatTime(long totalSeconds) {
