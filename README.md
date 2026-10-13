@@ -55,8 +55,16 @@ boss bar, the glowing and the end lock only ever exist after a dragon died.
 | `/dragonegg reload` | Re-read config.yml and apply it immediately |
 | `/dragonegg status` | Show the switches and the remaining time |
 | `/dragonegg top` | Damage ranking of the last dragon |
+| `/endfight` | Show the remaining time of the running timer |
+| `/endfight skip` | End the running timer right away |
 
-Permission: `dragonegg.admin` (default: OP).
+Permissions: `dragonegg.admin` for `/dragonegg`, `dragonegg.skip` for
+`/endfight` (both default: OP).
+
+`/endfight skip` ends the timer exactly as if it had run out: the boss bar and
+the glowing disappear, the end lock is lifted and the exit portal lights up
+again. The egg stays with whoever holds it. Everyone inside the End is told
+about it (`messages.skip-notice`, empty to send nothing).
 
 ## Switches
 

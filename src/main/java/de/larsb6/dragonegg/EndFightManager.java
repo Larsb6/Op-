@@ -106,6 +106,32 @@ public final class EndFightManager {
                 + world.getName() + ".");
     }
 
+    /**
+     * Ends the running timer right away, exactly as if it had just run out: the
+     * boss bar and the glowing go away, the end lock is lifted and the exit portal
+     * lights up again. The egg stays with whoever holds it.
+     *
+     * @return false when no timer was running
+     */
+    public boolean skip() {
+        if (!isRunning()) {
+            return false;
+        }
+        String remaining = formatTime(remainingSeconds());
+        World world = fightWorld();
+        String notice = this.plugin.config().msgSkipNotice();
+        if (world != null && !notice.isBlank()) {
+            Component message = PluginConfig.text(notice.replace("%time%", remaining));
+            // Collected before stop(), which clears the tracked players.
+            for (Player player : world.getPlayers()) {
+                player.sendMessage(message);
+            }
+        }
+        this.plugin.getLogger().info("Endfight timer skipped with " + remaining + " left.");
+        stop();
+        return true;
+    }
+
     /** Stops the timer and removes everything it owns. Used on expiry, reload and disable. */
     public void stop() {
         this.endsAt = 0L;

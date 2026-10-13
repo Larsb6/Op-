@@ -1,6 +1,8 @@
 package de.larsb6.dragonegg;
 
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -29,18 +31,22 @@ public final class DragonEggPlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new EggListener(this), this);
         getServer().getPluginManager().registerEvents(new EndLockListener(this), this);
 
-        PluginCommand command = getCommand("dragonegg");
-        if (command == null) {
-            getLogger().severe("Command 'dragonegg' is missing from plugin.yml.");
-        } else {
-            DragonEggCommand executor = new DragonEggCommand(this);
-            command.setExecutor(executor);
-            command.setTabCompleter(executor);
-        }
+        register("dragonegg", new DragonEggCommand(this));
+        register("endfight", new EndFightCommand(this));
 
         if (!this.config.isEnabled()) {
             getLogger().info("DragonEgg is disabled in config.yml (enabled: false).");
         }
+    }
+
+    private <T extends CommandExecutor & TabCompleter> void register(String name, T executor) {
+        PluginCommand command = getCommand(name);
+        if (command == null) {
+            getLogger().severe("Command '" + name + "' is missing from plugin.yml.");
+            return;
+        }
+        command.setExecutor(executor);
+        command.setTabCompleter(executor);
     }
 
     @Override

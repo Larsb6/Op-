@@ -41,6 +41,9 @@ public final class PluginConfig {
     private final String msgTopHeader;
     private final String msgTopEntry;
     private final String msgTopEmpty;
+    private final String msgSkipped;
+    private final String msgSkipNotice;
+    private final String msgSkipIdle;
 
     private PluginConfig(Plugin plugin, FileConfiguration cfg) {
         this.enabled = cfg.getBoolean("enabled", true);
@@ -71,6 +74,10 @@ public final class PluginConfig {
         this.msgTopHeader = cfg.getString("messages.top-header", "&6Damage dealt to the Ender Dragon:");
         this.msgTopEntry = cfg.getString("messages.top-entry", "&e%rank%. &f%player% &7- &c%damage% &7HP");
         this.msgTopEmpty = cfg.getString("messages.top-empty", "&7No damage has been counted on the dragon yet.");
+        this.msgSkipped = cfg.getString("messages.skipped", "&aEndfight timer skipped, the End is open again.");
+        this.msgSkipNotice = cfg.getString("messages.skip-notice",
+                "&eThe endfight timer was skipped, you can leave the End again.");
+        this.msgSkipIdle = cfg.getString("messages.skip-idle", "&7No endfight timer is running.");
     }
 
     /** Reads the plugin's config.yml from disk into a fresh snapshot. */
@@ -187,5 +194,17 @@ public final class PluginConfig {
 
     public String msgTopEmpty() {
         return this.msgTopEmpty;
+    }
+
+    public String msgSkipped() {
+        return this.msgSkipped;
+    }
+
+    public String msgSkipNotice() {
+        return this.msgSkipNotice;
+    }
+
+    public String msgSkipIdle() {
+        return this.msgSkipIdle;
     }
 }

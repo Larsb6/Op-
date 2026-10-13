@@ -82,3 +82,10 @@ messages:
   top-entry: "&e%rank%. &f%player% &7- &c%damage% &7HP"
   # Output when no damage has been counted yet.
   top-empty: "&7No damage has been counted on the dragon yet."
+  # Confirmation for /endfight skip
+  skipped: "&aEndfight timer skipped, the End is open again."
+  # Shown to everyone inside the End when the timer is skipped.
+  # %time% is the time that was left. An empty text sends nothing.
+  skip-notice: "&eThe endfight timer was skipped, you can leave the End again."
+  # Output when /endfight skip runs while no timer is active.
+  skip-idle: "&7No endfight timer is running."

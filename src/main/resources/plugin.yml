@@ -8,9 +8,16 @@ commands:
   dragonegg:
     description: Manage the DragonEgg plugin.
     usage: /dragonegg <reload|status|top>
-    aliases: [degg, endfight]
+    aliases: [degg]
     permission: dragonegg.admin
+  endfight:
+    description: Show the running endfight timer or end it right away.
+    usage: /endfight [skip]
+    permission: dragonegg.skip
 permissions:
   dragonegg.admin:
     description: Allows /dragonegg reload, status and top.
+    default: op
+  dragonegg.skip:
+    description: Allows /endfight skip.
     default: op
